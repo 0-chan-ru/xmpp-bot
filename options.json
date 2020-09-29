@@ -1,0 +1,12 @@
+{
+	"connection": {
+		"jid": "",
+		"password": "",
+		"host": "0-chan.ru",
+		"port": 5222
+	},
+	"main": {
+		"nick": "Nullchan Help Channel",
+		"conference": "apex"
+	}
+}
