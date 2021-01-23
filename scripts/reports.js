@@ -19,9 +19,11 @@ const SECOND = 1000;
 // структура жалоб
 const REPORT = {
 	ID: 0,
-	POSTLINK: 1,
-	REASON: 2,
-	TIME: 3
+	BOARD: 1,
+	POSTLINK: 2,
+	ILLEGAL: 3,
+	REASON: 4,
+	TIME: 5,
 }
 
 function getReports() {
@@ -39,31 +41,44 @@ function getReports() {
 				for (let i = rows.length-1; i !== 0; i--) {
 					const row = rows[i];
 					//console.log(row.toString());
+					if (!row) {
+						continue;
+					}
 					const columns = row.querySelectorAll("td");
 					const id = parseInt(columns[REPORT.ID].text, 10);
 					if (id > global.lastCheckInfoData.reportsLastId) {
 						global.lastCheckInfoData.reportsLastId = id;
-						newReports = true;
 					} else {
 						continue;
 					}
 					const postidDOM = columns[REPORT.POSTLINK].querySelector(".post-link");
+					const board = columns[REPORT.BOARD].text;
 					const postlink = `https://4.0-chan.ru${postidDOM.getAttribute("href")}`;
 					const reason = columns[REPORT.REASON].text;
+					const illegal = columns[REPORT.ILLEGAL].text;
 					const time = columns[REPORT.TIME].text;
+					const fullReportsBoard = ["meta", "media", "sci", "self", "life", "world"];
+					
+					if (illegal === "false" && !(fullReportsBoard.includes(board))) {
+						continue;
+					}
 					reports.push([
-						id, postlink, reason, time
+						id, board, postlink, illegal, reason, time
 					]);
 				}
 
-				if (newReports) {
+				if (reports.length >= 1) {
 					let reportsFormat = [];
 					for (let i = 0; i < reports.length; i++) {
 						const curReport = reports[i];
 						reportsFormat.push(`Ид жалобы: ${curReport[REPORT.ID]}`);
+						//reportsFormat.push(`Раздел: ${curReport[REPORT.BOARD]}`);
 						reportsFormat.push(`Пост: ${curReport[REPORT.POSTLINK]}`);
 						reportsFormat.push(`Причина: ${curReport[REPORT.REASON]}`);
 						reportsFormat.push(`Время: ${curReport[REPORT.TIME]}`);
+						if (curReport[REPORT.ILLEGAL] === "true") {
+							reportsFormat.push(`Запрещёнка!!!`);
+						}
 					}
 					let reportMessage = `Поступили новые жалобы:\n${reportsFormat.join("\n")}\nultrasemen: mya: следует обратить внимание!`
 					console.log(reportMessage);
