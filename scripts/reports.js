@@ -42,6 +42,8 @@ function getReports() {
 					const row = rows[i];
 					//console.log(row.toString());
 					if (!row) {
+						console.log("BUG IN:");
+						console.log(rows.toString());
 						continue;
 					}
 					const columns = row.querySelectorAll("td");
@@ -72,7 +74,7 @@ function getReports() {
 					for (let i = 0; i < reports.length; i++) {
 						const curReport = reports[i];
 						reportsFormat.push(`Ид жалобы: ${curReport[REPORT.ID]}`);
-						//reportsFormat.push(`Раздел: ${curReport[REPORT.BOARD]}`);
+						reportsFormat.push(`Раздел: ${curReport[REPORT.BOARD]}`);
 						reportsFormat.push(`Пост: ${curReport[REPORT.POSTLINK]}`);
 						reportsFormat.push(`Причина: ${curReport[REPORT.REASON]}`);
 						reportsFormat.push(`Время: ${curReport[REPORT.TIME]}`);
