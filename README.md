@@ -1,5 +1,5 @@
-# xmpp-4bot
-XMPP bot for 4.0-chan.ru
+# xmpp-bot
+XMPP bot for 0-chan.ru
 
 ## Features
 * Send last reports from meguca
